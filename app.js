@@ -22,7 +22,7 @@ app.use(express.static('img'));
 // create an instance of MongoDB client
 const MongoClient = mongodb.MongoClient;
 // define the location of the server and its port number
-const url = "mongodb://localhost:27017";
+const url = "mongodb://35.197.161.128:27017";
 let db;
 // connect to mongoDB server
 MongoClient.connect(url, {useNewUrlParser:true, useUnifiedTopology: true}, function(err, client){
