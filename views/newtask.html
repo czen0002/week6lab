@@ -1,0 +1,29 @@
+<html>
+    <head>
+        <link href="StyleSheet.css" rel="stylesheet" type="text/css">
+    </head>
+    <body>
+        <p>
+            <a href="http://localhost:8080">Home</a><br>
+            <a href="http://localhost:8080/listtasks">List Task</a><br>
+            <a href="http://localhost:8080/deletetask">Delete Task</a><br>
+            <a href="http://localhost:8080/updatetask">Update Task</a>
+        </p>
+        <h1>
+            Add a Task
+        </h1>
+        <form action="/add" method="POST">
+            Task Name <input type="text" name="taskName"/><br>
+            Assign To <input type="text" name="taskAssign"/><br>
+            Task Due <input type="date" value="2019-01-01" name="taskDue"/><br>
+            Task Status <select name="taskStat">
+                <option>InProgress</option>
+                <option>Complete</option>
+                </select>
+                <br>
+            Task Desc <input type="text" name="taskDesc"/><br>
+            <br><br>
+            <button>Submit</button>
+        </form>
+    </body>
+</html>

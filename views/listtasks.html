@@ -1,0 +1,46 @@
+
+<html>
+    <head>
+    <link href="StyleSheet.css" rel="stylesheet" type="text/css">
+    </head>
+    <body>
+        <p>
+            <a href="http://localhost:8080">Home</a><br>
+            <a href="http://localhost:8080/newtask">Add Task</a><br>
+            <a href="http://localhost:8080/deletetask">Delete Task</a><br>
+            <a href="http://localhost:8080/updatetask">Update Task</a>
+        </p>
+        <h1>List all Tasks</h1>
+        <table>
+            <tr>
+                <td>ID</td>
+                <td>Name</td>
+                <td>Assign to</td>
+                <td>Due Date</td>
+                <td>Status</td>
+                <td>Desctiption</td>
+            </tr>
+            <% for ( var i =0; i< taskDb.length;i++){ %>
+                <tr>
+                    <td>
+                        <%= taskDb[i].taskId%>
+                    </td>
+                    <td>
+                        <%= taskDb[i].taskName %>
+                    </td>
+                    <td>
+                        <%= taskDb[i].taskAssign %>
+                    </td>
+                    <td>
+                        <%= taskDb[i].taskDueDate %>
+                    </td>
+                    <td>
+                        <%= taskDb[i].taskStatus %>
+                    </td>
+                    <td>
+                        <%= taskDb[i].taskDescription %>
+                    </td>
+                </tr>
+                <% }%>
+    </body>
+</html>
