@@ -1,3 +1,4 @@
+
 const express = require('express');
 const mongodb = require('mongodb');
 const app = express();
@@ -26,6 +27,7 @@ const url = "mongodb://" + process.argv[2] + ":27017/";
 console.log("Connecting to MongoDB Server=" + url);
 
 let db;
+let col;
 // connect to mongoDB server
 MongoClient.connect(url, {useNewUrlParser:true, useUnifiedTopology: true}, function(err, client){
     if (err) {
@@ -33,7 +35,8 @@ MongoClient.connect(url, {useNewUrlParser:true, useUnifiedTopology: true}, funct
     } else {
         console.log("Connected successfully to server");
         db = client.db("week6lab");
-        db.createCollection('taskdb');   
+        col = db.collection('taskdb');
+        //db.createCollection('taskdb');   
     }
 })
 
@@ -54,7 +57,7 @@ app.post('/add', function(req, res){
     let taskDetails = req.body;
     taskDetails.taskID = getNewId(); 
     taskDetails.taskDue = new Date(taskDetails.taskDue);
-    db.collection('taskdb').insertOne({
+    col.insertOne({
         taskId: taskDetails.taskID,
         taskName: taskDetails.taskName,
         taskAssign: taskDetails.taskAssign,
@@ -69,7 +72,7 @@ app.post('/add', function(req, res){
 app.get('/listtasks', function(req, res){
     // render a view and sends the rendered HTML string to the client
     // pass local variable tasks to the view
-    db.collection('taskdb').find({}).toArray(function(err, result){
+    col.find({}).toArray(function(err, result){
         if (err) {
             res.redirect('/404');
         } else {
@@ -82,11 +85,11 @@ app.get('/listtasks', function(req, res){
 app.get('/deletetask', function(req, res){
     res.sendFile(__dirname + "/views/deletetask.html");
 });
-//
+// response to delete
 app.post('/delete', function(req, res){
     let taskDetails = req.body;
     let id = parseInt(taskDetails.taskId);
-    db.collection('taskdb').deleteOne({taskId: id}, function(err, obj){
+    col.deleteOne({taskId: id}, function(err, obj){
         if (err) {
             res.redirect('/404');
         } else {
@@ -105,7 +108,7 @@ app.post('/update', function(req, res){
     let id = parseInt(taskDetails.taskId);
     let status = taskDetails.taskStat;
     if (status == "InProgress") {
-        db.collection('taskdb').updateOne({taskId: id},{$set: {taskStatus: status}},function(err, result){
+        col.updateOne({taskId: id},{$set: {taskStatus: status}},function(err, result){
             if (err) {
                 res.redirect('/404');
             } else {
@@ -113,7 +116,7 @@ app.post('/update', function(req, res){
             }
         })
     } else {
-        db.collection('taskdb').deleteOne({taskId: id}, function(err, obj){
+        col.deleteOne({taskId: id}, function(err, obj){
             if (err) {
                 res.redirect('/404');
             } else {
