@@ -41,7 +41,7 @@ MongoClient.connect(url, {useNewUrlParser:true, useUnifiedTopology: true}, funct
 })
 
 // list of tasks
-tasks = [];
+// tasks = [];
 // a request to the home page
 app.get('/', function(req, res){
     // transfer the file at the given path
