@@ -76,8 +76,6 @@ app.get('/listtasks', function(req, res){
         if (err) {
             res.redirect('/404');
         } else {
-            console.log(result);
-            
             res.render('listtasks.html', {taskDb: result});
         }
     })
