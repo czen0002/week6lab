@@ -133,8 +133,8 @@ app.post('/update', function(req, res){
 app.get('/deleteOldComplete', function(req, res){
     let now = Date.now();
     console.log(now);
-    
-    col.deleteMany({taskStatus: "Complete", taskDueDate: {$lt: now}}, function(err, result){
+    // taskStatus: "Complete", 
+    col.deleteMany({taskDueDate: {$lt: now}}, function(err, result){
         if (err) {
             res.redirect('/404');
         } else {
