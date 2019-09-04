@@ -129,7 +129,7 @@ app.post('/update', function(req, res){
 
 // a request delete all tasks
 app.get('/deleteOldComplete', function(req, res){
-    col.deleteMany({taskStatus: Complete}, function(err, result){
+    col.deleteMany({taskStatus: "Complete"}, function(err, result){
         if (err) {
             res.redirect('/404');
         } else {
