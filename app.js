@@ -131,7 +131,7 @@ app.post('/update', function(req, res){
 
 // a request delete all tasks
 app.get('/deleteOldComplete', function(req, res){
-    let now = Date.now();
+    let now = new Date();
     console.log(now);
     //, taskDueDate: {$lt: now}
     col.deleteMany({taskStatus: "Complete"}, function(err, result){
