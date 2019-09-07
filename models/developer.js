@@ -18,16 +18,16 @@ let developerSchema = mongoose.Schema({
         }
     },
     address: {
-        State: {
+        state: {
             type: String
         },
-        Suburb: {
+        suburb: {
             type: String
         },
-        Street: {
+        street: {
             type: String
         },
-        Unit: {
+        unit: {
             type: String
         }
     }

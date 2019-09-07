@@ -11,7 +11,9 @@
             <a href="http://localhost:8080/deletetask">Delete Task</a><br>
             <a href="http://localhost:8080/updatetask">Update Task</a><br>
             <a href="http://localhost:8080/deleteComplete">Delete Completed Tasks</a><br>
-            <a href="http://localhost:8080/deleteOldComplete">Delete Old and Completed Task</a>
+            <a href="http://localhost:8080/deleteOldComplete">Delete Old and Completed Task</a><br>
+            <a href="http://localhost:8080/newdeveloper">Add Developer</a><br>
+            <a href="http://localhost:8080/listdevelopers">List Developer</a><br>
         </p>
         <h1>List all Tasks</h1>
         <table>
@@ -32,7 +34,7 @@
                         <%= taskDb[i].taskName %>
                     </td>
                     <td>
-                        <%= taskDb[i].taskAssign %>
+                        <%= taskDb[i].taskAssign.name.firstName%> &nbsp <%=taskDb[i].taskAssign.name.lastName %>
                     </td>
                     <td>
                         <%= taskDb[i].taskDueDate %>

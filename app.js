@@ -1,9 +1,13 @@
 
 const express = require('express');
-const mongodb = require('mongodb');
+//const mongodb = require('mongodb');
+const mongoose = require('mongoose');
 const app = express();
 // bodyParser is used to parse the payload of the incoming POST requests
 const bodyParser = require('body-parser');
+
+let Task = require('./models/task');
+let Developer = require('./models/developer');
 
 // Express should be able to render ejs templates
 app.engine('html', require('ejs').renderFile);
@@ -21,27 +25,34 @@ app.use(express.static('public'));
 app.use(express.static('img'));
 
 // create an instance of MongoDB client
-const MongoClient = mongodb.MongoClient;
+//const MongoClient = mongodb.MongoClient;
 // define the location of the server and its port number
-const url = "mongodb://" + process.argv[2] + ":27017/";
+const url = "mongodb://" + process.argv[2] + ":27017/week7lab";
 console.log("Connecting to MongoDB Server=" + url);
 
-let db;
-let col;
-// connect to mongoDB server
-MongoClient.connect(url, {useNewUrlParser:true, useUnifiedTopology: true}, function(err, client){
+// let db;
+// let col;
+// // connect to mongoDB server
+// MongoClient.connect(url, {useNewUrlParser:true, useUnifiedTopology: true}, function(err, client){
+//     if (err) {
+//         console.log("Err ", err);
+//     } else {
+//         console.log("Connected successfully to server");
+//         db = client.db("week6lab");
+//         col = db.collection('taskdb');
+//         //db.createCollection('taskdb');   
+//     }
+// })
+
+// connect to mongoose
+mongoose.connect(url, function(err){
     if (err) {
         console.log("Err ", err);
     } else {
         console.log("Connected successfully to server");
-        db = client.db("week6lab");
-        col = db.collection('taskdb');
-        //db.createCollection('taskdb');   
     }
 })
 
-// list of tasks
-// tasks = [];
 // a request to the home page
 app.get('/', function(req, res){
     // transfer the file at the given path
@@ -53,32 +64,60 @@ app.get('/newtask', function(req, res){
     res.sendFile(__dirname + "/views/newtask.html");
 });
 // insert a new task in db
-app.post('/add', function(req, res){
+app.post('/addtask', function(req, res){
     let taskDetails = req.body;
     taskDetails.taskID = getNewId(); 
     taskDetails.taskDue = new Date(taskDetails.taskDue);
-    col.insertOne({
-        taskId: taskDetails.taskID,
+    console.log("get task details");
+    
+    // col.insertOne({
+    //     taskId: taskDetails.taskID,
+    //     taskName: taskDetails.taskName,
+    //     taskAssign: taskDetails.taskAssign,
+    //     taskDueDate: taskDetails.taskDue,
+    //     taskStatus: taskDetails.taskStat,
+    //     taskDescription: taskDetails.taskDesc
+    // });
+    let task = new Task({
+        //taskId: taskDetails.taskID,
         taskName: taskDetails.taskName,
         taskAssign: taskDetails.taskAssign,
         taskDueDate: taskDetails.taskDue,
         taskStatus: taskDetails.taskStat,
         taskDescription: taskDetails.taskDesc
     });
-    res.redirect('/listtasks');
+    
+    task.save(function(err){
+        if (err) {
+            res.redirect('/404');
+        } else {
+            res.redirect('/listtasks');
+        }
+    });
 });
 
 // a request to get all tasks
 app.get('/listtasks', function(req, res){
     // render a view and sends the rendered HTML string to the client
     // pass local variable tasks to the view
-    col.find({}).toArray(function(err, result){
+    // col.find({}).toArray(function(err, result){
+    //     if (err) {
+    //         res.redirect('/404');
+    //     } else {
+    //         res.render('listtasks.html', {taskDb: result});
+    //     }
+    // })
+    Task.find().populate('taskAssign').exec(function(err, data){
         if (err) {
             res.redirect('/404');
         } else {
-            res.render('listtasks.html', {taskDb: result});
+            console.log(data);
+            //console.log(data.taskAssign);
+            //data.taskAssign = data.taskAssign.firstName;
+            //console.log(data);
+            res.render('listtasks.html', {taskDb: data});
         }
-    })
+    });
 });
 
 // a request to delete a task
@@ -89,13 +128,20 @@ app.get('/deletetask', function(req, res){
 app.post('/delete', function(req, res){
     let taskDetails = req.body;
     let id = parseInt(taskDetails.taskId);
-    col.deleteOne({taskId: id}, function(err, obj){
-        if (err) {
+    // col.deleteOne({taskId: id}, function(err, obj){
+    //     if (err) {
+    //         res.redirect('/404');
+    //     } else {
+    //         res.redirect('/listtasks');
+    //     }
+    // })
+    Task.deleteOne({taskId: id}, function(err){
+        if (err){
             res.redirect('/404');
         } else {
             res.redirect('/listtasks');
         }
-    })
+    });
 })
 
 // a request to update a task
@@ -107,36 +153,101 @@ app.post('/update', function(req, res){
     let taskDetails = req.body;
     let id = parseInt(taskDetails.taskId);
     let status = taskDetails.taskStat;
-    col.updateOne({taskId: id},{$set: {taskStatus: status}},function(err, result){
+    // col.updateOne({taskId: id}, {$set: {taskStatus: status}},function(err, result){
+    //     if (err) {
+    //         res.redirect('/404');
+    //     } else {
+    //         res.redirect('/listtasks');
+    //     }
+    // })
+    Task.updateOne({taskId: id}, {$set: {taskStatus: status}},function(err, result){
         if (err) {
             res.redirect('/404');
         } else {
             res.redirect('/listtasks');
         }
-    })
+    });
 })
 
 // a request delete all complete tasks
 app.get('/deleteComplete', function(req, res){
-    col.deleteMany({taskStatus: "Complete"}, function(err, result){
-        if (err) {
+    // col.deleteMany({taskStatus: "Complete"}, function(err, result){
+    //     if (err) {
+    //         res.redirect('/404');
+    //     } else {
+    //         res.redirect('/listtasks');
+    //     }
+    // })
+    Task.deleteOne({taskStatus: "Complete"}, function(err){
+        if (err){
             res.redirect('/404');
         } else {
             res.redirect('/listtasks');
         }
-    })
+    });
 })
 
 // a request delete all complete and old tasks
 app.get('/deleteOldComplete', function(req, res){
     let now = new Date();
-    col.deleteMany({taskStatus: "Complete", taskDueDate: {$lt: now}}, function(err, result){
-        if (err) {
+    // col.deleteMany({taskStatus: "Complete", taskDueDate: {$lt: now}}, function(err, result){
+    //     if (err) {
+    //         res.redirect('/404');
+    //     } else {
+    //         res.redirect('/listtasks');
+    //     }
+    // })
+    Task.deleteMany({taskStatus: "Complete", taskDueDate: {$lt: now}}, function(err){
+        if (err){
             res.redirect('/404');
         } else {
             res.redirect('/listtasks');
         }
-    })
+    });
+});
+
+// a request add a new developer
+app.get('/newdeveloper', function(req, res){
+    res.sendFile(__dirname + "/views/newdeveloper.html");
+});
+app.post('/adddeveloper', function(req, res){
+    let developerDetails = req.body;
+    console.log("get developer details");
+
+    let developer = new Developer({
+        name: {
+            firstName: developerDetails.firstName, 
+            lastName: developerDetails.lastName
+        },
+        level: developerDetails.level,
+        address: {
+            state: developerDetails.state,
+            suburb: developerDetails.suburb,
+            street: developerDetails.street,
+            unit: developerDetails.unit
+        }
+    });
+    
+    developer.save(function(err){
+        if (err) {
+            res.redirect('/404');
+        } else {
+            console.log("developer saved")
+            //res.redirect('/listdevelopers');
+        }
+    });
+});
+
+// a request list all developer
+app.get('/listdevelopers', function(req, res){
+    Developer.find().exec(function(err, data){
+        console.log(data);
+        if (err) {
+            res.redirect('/404');
+        } else {
+            res.render('listdevelopers.html', {developerDb: data});
+        }
+    });
 });
 
 app.listen(8080, function(){

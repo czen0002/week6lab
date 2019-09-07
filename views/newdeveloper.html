@@ -6,27 +6,29 @@
         <p>
             <!--35.244.107.37-->
             <a href="http://localhost:8080">Home</a><br>
+            <a href="http://localhost:8080/newtask">Add Task</a><br>
             <a href="http://localhost:8080/listtasks">List Task</a><br>
             <a href="http://localhost:8080/deletetask">Delete Task</a><br>
             <a href="http://localhost:8080/updatetask">Update Task</a><br>
             <a href="http://localhost:8080/deleteComplete">Delete Completed Tasks</a><br>
             <a href="http://localhost:8080/deleteOldComplete">Delete Old and Completed Task</a><br>
-            <a href="http://localhost:8080/newdeveloper">Add Developer</a><br>
             <a href="http://localhost:8080/listdevelopers">List Developer</a><br>
         </p>
         <h1>
-            Add a Task
+            Add a Developer
         </h1>
-        <form action="/addtask" method="POST">
-            Task Name <input type="text" name="taskName"/><br>
-            Assign To <input type="text" name="taskAssign"/><br>
-            Task Due <input type="date" value="2019-01-01" name="taskDue"/><br>
-            Task Status <select name="taskStat">
-                <option>InProgress</option>
-                <option>Complete</option>
+        <form action="/adddeveloper" method="POST">
+            First Name <input type="text" name="firstName"/><br>
+            Last Name <input type="text" name="lastName"/><br>
+            Level <select name="level">
+                <option>Beginner</option>
+                <option>Expert</option>
                 </select>
                 <br>
-            Task Desc <input type="text" name="taskDesc"/><br>
+            State <input type="text" name="state"/><br>
+            Suburb <input type="text" name="suburb"/><br>
+            Street <input type="text" name="street"/><br>
+            Unit <input type="text" name="unit"/><br>
             <br><br>
             <button>Submit</button>
         </form>
