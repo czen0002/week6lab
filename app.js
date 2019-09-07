@@ -107,24 +107,13 @@ app.post('/update', function(req, res){
     let taskDetails = req.body;
     let id = parseInt(taskDetails.taskId);
     let status = taskDetails.taskStat;
-    if (status == "InProgress") {
-        col.updateOne({taskId: id},{$set: {taskStatus: status}},function(err, result){
-            if (err) {
-                res.redirect('/404');
-            } else {
-                res.redirect('/listtasks');
-            }
-        })
-    } else {
-        col.deleteOne({taskId: id}, function(err, obj){
-            if (err) {
-                res.redirect('/404');
-            } else {
-                res.redirect('/listtasks');
-            }
-        })
-    }
-    
+    col.updateOne({taskId: id},{$set: {taskStatus: status}},function(err, result){
+        if (err) {
+            res.redirect('/404');
+        } else {
+            res.redirect('/listtasks');
+        }
+    })
 })
 
 // a request delete all tasks
