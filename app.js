@@ -116,11 +116,20 @@ app.post('/update', function(req, res){
     })
 })
 
-// a request delete all tasks
+// a request delete all complete tasks
+app.get('/deleteComplete', function(req, res){
+    col.deleteMany({taskStatus: "Complete"}, function(err, result){
+        if (err) {
+            res.redirect('/404');
+        } else {
+            res.redirect('/listtasks');
+        }
+    })
+})
+
+// a request delete all complete and old tasks
 app.get('/deleteOldComplete', function(req, res){
     let now = new Date();
-    console.log(now);
-
     col.deleteMany({taskStatus: "Complete", taskDueDate: {$lt: now}}, function(err, result){
         if (err) {
             res.redirect('/404');
