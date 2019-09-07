@@ -11,7 +11,7 @@ let taskSchema = mongoose.Schema({
     },
     taskDueDate: {
         type: Date,
-        require: true
+        require: true,
     },
     taskStatus: {
         type: String,

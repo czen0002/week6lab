@@ -68,25 +68,14 @@ app.post('/addtask', function(req, res){
     let taskDetails = req.body;
     taskDetails.taskID = getNewId(); 
     taskDetails.taskDue = new Date(taskDetails.taskDue);
-    console.log("get task details");
-    
-    // col.insertOne({
-    //     taskId: taskDetails.taskID,
-    //     taskName: taskDetails.taskName,
-    //     taskAssign: taskDetails.taskAssign,
-    //     taskDueDate: taskDetails.taskDue,
-    //     taskStatus: taskDetails.taskStat,
-    //     taskDescription: taskDetails.taskDesc
-    // });
     let task = new Task({
-        //taskId: taskDetails.taskID,
+        //taskId: taskDetails._id,
         taskName: taskDetails.taskName,
         taskAssign: taskDetails.taskAssign,
         taskDueDate: taskDetails.taskDue,
         taskStatus: taskDetails.taskStat,
         taskDescription: taskDetails.taskDesc
     });
-    
     task.save(function(err){
         if (err) {
             res.redirect('/404');
@@ -98,23 +87,12 @@ app.post('/addtask', function(req, res){
 
 // a request to get all tasks
 app.get('/listtasks', function(req, res){
-    // render a view and sends the rendered HTML string to the client
-    // pass local variable tasks to the view
-    // col.find({}).toArray(function(err, result){
-    //     if (err) {
-    //         res.redirect('/404');
-    //     } else {
-    //         res.render('listtasks.html', {taskDb: result});
-    //     }
-    // })
     Task.find().populate('taskAssign').exec(function(err, data){
         if (err) {
+            console.log(err);
             res.redirect('/404');
         } else {
             console.log(data);
-            //console.log(data.taskAssign);
-            //data.taskAssign = data.taskAssign.firstName;
-            //console.log(data);
             res.render('listtasks.html', {taskDb: data});
         }
     });
@@ -128,13 +106,6 @@ app.get('/deletetask', function(req, res){
 app.post('/delete', function(req, res){
     let taskDetails = req.body;
     let id = parseInt(taskDetails.taskId);
-    // col.deleteOne({taskId: id}, function(err, obj){
-    //     if (err) {
-    //         res.redirect('/404');
-    //     } else {
-    //         res.redirect('/listtasks');
-    //     }
-    // })
     Task.deleteOne({taskId: id}, function(err){
         if (err){
             res.redirect('/404');
@@ -153,13 +124,6 @@ app.post('/update', function(req, res){
     let taskDetails = req.body;
     let id = parseInt(taskDetails.taskId);
     let status = taskDetails.taskStat;
-    // col.updateOne({taskId: id}, {$set: {taskStatus: status}},function(err, result){
-    //     if (err) {
-    //         res.redirect('/404');
-    //     } else {
-    //         res.redirect('/listtasks');
-    //     }
-    // })
     Task.updateOne({taskId: id}, {$set: {taskStatus: status}},function(err, result){
         if (err) {
             res.redirect('/404');
@@ -171,13 +135,6 @@ app.post('/update', function(req, res){
 
 // a request delete all complete tasks
 app.get('/deleteComplete', function(req, res){
-    // col.deleteMany({taskStatus: "Complete"}, function(err, result){
-    //     if (err) {
-    //         res.redirect('/404');
-    //     } else {
-    //         res.redirect('/listtasks');
-    //     }
-    // })
     Task.deleteOne({taskStatus: "Complete"}, function(err){
         if (err){
             res.redirect('/404');
@@ -190,13 +147,6 @@ app.get('/deleteComplete', function(req, res){
 // a request delete all complete and old tasks
 app.get('/deleteOldComplete', function(req, res){
     let now = new Date();
-    // col.deleteMany({taskStatus: "Complete", taskDueDate: {$lt: now}}, function(err, result){
-    //     if (err) {
-    //         res.redirect('/404');
-    //     } else {
-    //         res.redirect('/listtasks');
-    //     }
-    // })
     Task.deleteMany({taskStatus: "Complete", taskDueDate: {$lt: now}}, function(err){
         if (err){
             res.redirect('/404');
@@ -210,10 +160,10 @@ app.get('/deleteOldComplete', function(req, res){
 app.get('/newdeveloper', function(req, res){
     res.sendFile(__dirname + "/views/newdeveloper.html");
 });
+// response to add developer
 app.post('/adddeveloper', function(req, res){
     let developerDetails = req.body;
     console.log("get developer details");
-
     let developer = new Developer({
         name: {
             firstName: developerDetails.firstName, 
@@ -227,13 +177,12 @@ app.post('/adddeveloper', function(req, res){
             unit: developerDetails.unit
         }
     });
-    
     developer.save(function(err){
         if (err) {
             res.redirect('/404');
         } else {
-            console.log("developer saved")
-            //res.redirect('/listdevelopers');
+            //console.log("developer saved")
+            res.redirect('/listdevelopers');
         }
     });
 });
