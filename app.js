@@ -78,7 +78,8 @@ app.post('/addtask', function(req, res){
     });
     task.save(function(err){
         if (err) {
-            res.redirect('/404');
+            //res.redirect('/404');
+            res.redirect('/newtask');
         } else {
             res.redirect('/listtasks');
         }
@@ -89,10 +90,8 @@ app.post('/addtask', function(req, res){
 app.get('/listtasks', function(req, res){
     Task.find().populate('taskAssign').exec(function(err, data){
         if (err) {
-            console.log(err);
             res.redirect('/404');
         } else {
-            console.log(data);
             res.render('listtasks.html', {taskDb: data});
         }
     });
@@ -163,7 +162,6 @@ app.get('/newdeveloper', function(req, res){
 // response to add developer
 app.post('/adddeveloper', function(req, res){
     let developerDetails = req.body;
-    console.log("get developer details");
     let developer = new Developer({
         name: {
             firstName: developerDetails.firstName, 
@@ -179,9 +177,9 @@ app.post('/adddeveloper', function(req, res){
     });
     developer.save(function(err){
         if (err) {
-            res.redirect('/404');
+            //res.redirect('/404');
+            res.redirect('/newdeveloper');
         } else {
-            //console.log("developer saved")
             res.redirect('/listdevelopers');
         }
     });
@@ -190,7 +188,6 @@ app.post('/adddeveloper', function(req, res){
 // a request list all developer
 app.get('/listdevelopers', function(req, res){
     Developer.find().exec(function(err, data){
-        console.log(data);
         if (err) {
             res.redirect('/404');
         } else {

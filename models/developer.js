@@ -4,7 +4,7 @@ let developerSchema = mongoose.Schema({
     name: {
         firstName: {
             type: String,
-            require: true
+            required: true
         },
         lastName: {
             type: String
@@ -12,7 +12,7 @@ let developerSchema = mongoose.Schema({
     },
     level: {
         type: String,
-        require: true,
+        required: true,
         set: function(newLevel){
             return newLevel.toUpperCase();
         }

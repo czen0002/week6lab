@@ -3,7 +3,7 @@ let mongoose = require('mongoose');
 let taskSchema = mongoose.Schema({
     taskName: {
         type: String,
-        require: true
+        required: true
     },
     taskAssign: {
         type: mongoose.Schema.Types.ObjectId,
@@ -11,11 +11,11 @@ let taskSchema = mongoose.Schema({
     },
     taskDueDate: {
         type: Date,
-        require: true,
+        required: true,
     },
     taskStatus: {
         type: String,
-        require: true
+        required: true
     },
     taskDescription: {
         type: String
