@@ -6,6 +6,7 @@ const app = express();
 // bodyParser is used to parse the payload of the incoming POST requests
 const bodyParser = require('body-parser');
 
+// reference the schemas
 let Task = require('./models/task');
 let Developer = require('./models/developer');
 
@@ -25,7 +26,7 @@ app.use(express.static('public'));
 app.use(express.static('img'));
 
 // create an instance of MongoDB client
-//const MongoClient = mongodb.MongoClient;
+// const MongoClient = mongodb.MongoClient;
 // define the location of the server and its port number
 const url = "mongodb://" + process.argv[2] + ":27017/week7lab";
 console.log("Connecting to MongoDB Server=" + url);
@@ -66,7 +67,7 @@ app.get('/newtask', function(req, res){
 // insert a new task in db
 app.post('/addtask', function(req, res){
     let taskDetails = req.body;
-    taskDetails.taskID = getNewId(); 
+    //taskDetails.taskID = getNewId(); 
     taskDetails.taskDue = new Date(taskDetails.taskDue);
     let task = new Task({
         //taskId: taskDetails._id,
@@ -88,6 +89,7 @@ app.post('/addtask', function(req, res){
 
 // a request to get all tasks
 app.get('/listtasks', function(req, res){
+    // exec indicates the end of the chain and invokes the callback function
     Task.find().populate('taskAssign').exec(function(err, data){
         if (err) {
             res.redirect('/404');
@@ -104,8 +106,8 @@ app.get('/deletetask', function(req, res){
 // response to delete
 app.post('/delete', function(req, res){
     let taskDetails = req.body;
-    let id = parseInt(taskDetails.taskId);
-    Task.deleteOne({taskId: id}, function(err){
+    let id = parseInt(taskDetails._id);
+    Task.deleteOne({_id: id}, function(err){
         if (err){
             res.redirect('/404');
         } else {
@@ -121,9 +123,9 @@ app.get('/updatetask', function(req, res){
 // response to update
 app.post('/update', function(req, res){
     let taskDetails = req.body;
-    let id = parseInt(taskDetails.taskId);
+    let id = parseInt(taskDetails._id);
     let status = taskDetails.taskStat;
-    Task.updateOne({taskId: id}, {$set: {taskStatus: status}},function(err, result){
+    Task.updateOne({_id: id}, {$set: {taskStatus: status}},function(err, result){
         if (err) {
             res.redirect('/404');
         } else {

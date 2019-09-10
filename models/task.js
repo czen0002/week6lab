@@ -27,6 +27,7 @@ let taskSchema = mongoose.Schema({
     }
 })
 
+// invoke the model constructor
+// TaskCol is the collection and taskSchema it the refered schema
 let taskModel = mongoose.model("TaskCol", taskSchema);
-
 module.exports = taskModel;

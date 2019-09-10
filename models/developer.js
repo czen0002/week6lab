@@ -1,5 +1,6 @@
 let mongoose = require('mongoose');
 
+// create task schema, it includes three fields
 let developerSchema = mongoose.Schema({
     name: {
         firstName: {
@@ -33,6 +34,7 @@ let developerSchema = mongoose.Schema({
     }
 })
 
+// invoke the model constructor
+// DeveloperCol is the collection and developerSchema it the refered schema
 let developerModel = mongoose.model("DeveloperCol", developerSchema);
-
 module.exports = developerModel;
