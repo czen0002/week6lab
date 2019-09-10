@@ -123,7 +123,10 @@ app.get('/updatetask', function(req, res){
 // response to update
 app.post('/update', function(req, res){
     let taskDetails = req.body;
+    console.log(taskDetails);
+    
     let id = parseInt(taskDetails.taskId);
+    console.log(taskDetails);
     let status = taskDetails.taskStat;
     Task.updateOne({_id: id}, {$set: {taskStatus: status}},function(err, result){
         if (err) {
