@@ -106,7 +106,7 @@ app.get('/deletetask', function(req, res){
 // response to delete
 app.post('/delete', function(req, res){
     let taskDetails = req.body;
-    let id = parseInt(taskDetails._id);
+    let id = parseInt(taskDetails.taskId);
     Task.deleteOne({_id: id}, function(err){
         if (err){
             res.redirect('/404');
@@ -123,7 +123,7 @@ app.get('/updatetask', function(req, res){
 // response to update
 app.post('/update', function(req, res){
     let taskDetails = req.body;
-    let id = parseInt(taskDetails._id);
+    let id = parseInt(taskDetails.taskId);
     let status = taskDetails.taskStat;
     Task.updateOne({_id: id}, {$set: {taskStatus: status}},function(err, result){
         if (err) {
