@@ -1,5 +1,6 @@
 let mongoose = require('mongoose');
 
+// create task schema, it includes six fields
 let taskSchema = mongoose.Schema({
     taskName: {
         type: String,
@@ -22,7 +23,7 @@ let taskSchema = mongoose.Schema({
     },
     created: {
         type: Date,
-        default: Date.now()
+        default: Date.now
     }
 })
 
