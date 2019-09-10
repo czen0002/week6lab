@@ -125,7 +125,7 @@ app.post('/update', function(req, res){
     let taskDetails = req.body;
     console.log(taskDetails);
     
-    let id = id = taskDetails.taskId;
+    let id = taskDetails.taskId;
     console.log(id);
     let status = taskDetails.taskStat;
     Task.updateOne({'_id': id}, {$set: {taskStatus: status}},function(err, result){
