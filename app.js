@@ -207,8 +207,8 @@ app.post('/updateDeveloper', function(req, res){
     let newDeveloper = req.body;
     let newFirstName = newDeveloper.newName;
     let oldFirstName = newDeveloper.oldName;
-    console.log(newFirstName);
-    console.log(oldFirstName);
+    //console.log(newFirstName);
+    //console.log(oldFirstName);
     Developer.updateMany({ 'name.firstName': oldFirstName},{ $set: { 'name.firstName': newFirstName}},function(err, doc){
         if (err){
             console.log(err);
