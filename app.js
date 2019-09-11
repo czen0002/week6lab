@@ -202,15 +202,20 @@ app.get('/listdevelopers', function(req, res){
 app.get('/oldfirstname/newfirstname', function(req, res){
     res.sendFile(__dirname + "/views/updatename.html");
 });
+// aresponse to update a developer's first name
 app.post('/updateDeveloper', function(req, res){
     let newDeveloper = req.body;
-    console.log(newDeveloper);
     let newFirstName = newDeveloper.newName;
     let oldFirstName = newDeveloper.oldName;
     console.log(newFirstName);
     console.log(oldFirstName);
-    
-    //Developer.find({name.firstName: })
+    Developer.updateMany({ 'name.firstName': oldFirstName},{ $set: { 'name.firstName': newFirstName}},function(err, doc){
+        if (err){
+            console.log(err);
+            
+        }
+    })
+
 })
 
 app.listen(8080, function(){
