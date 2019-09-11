@@ -205,6 +205,11 @@ app.get('/oldfirstname/newfirstname', function(req, res){
 app.post('/updateDeveloper', function(req, res){
     let newDeveloper = req.body;
     console.log(newDeveloper);
+    let newFirstName = newDeveloper.newName;
+    let oldFirstName = newDeveloper.oldName;
+    console.log(newFirstName);
+    console.log(oldFirstName);
+    
     //Developer.find({name.firstName: })
 })
 
