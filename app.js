@@ -199,24 +199,29 @@ app.get('/listdevelopers', function(req, res){
 });
 
 // a request update a developer's first name
-app.get('/oldfirstname/newfirstname', function(req, res){
-    res.sendFile(__dirname + "/views/updatename.html");
-});
+// app.get('/oldfirstname:/newfirstname', function(req, res){
+//     res.sendFile(__dirname + "/views/updatename.html");
+// });
 // aresponse to update a developer's first name
-app.post('/updateDeveloper', function(req, res){
-    let newDeveloper = req.body;
-    let newFirstName = newDeveloper.newName;
-    let oldFirstName = newDeveloper.oldName;
-    //console.log(newFirstName);
-    //console.log(oldFirstName);
-    Developer.updateMany({ 'name.firstName': oldFirstName},{ $set: { 'name.firstName': newFirstName}},function(err, doc){
-        if (err){
-            console.log(err);
-        } else {
-            res.redirect('/listdevelopers');
-        }
-    })
+// app.post('/updateDeveloper', function(req, res){
+//     let newDeveloper = req.body;
+//     let newFirstName = newDeveloper.newName;
+//     let oldFirstName = newDeveloper.oldName;
+//     console.log(newFirstName);
+//     console.log(oldFirstName);
+//     Developer.updateMany({ 'name.firstName': oldFirstName},{ $set: { 'name.firstName': newFirstName}},function(err, doc){
+//         if (err){
+//             console.log(err);
+//         } else {
+//             res.redirect('/listdevelopers');
+//         }
+//     })
 
+// })
+
+app.get('/oldfirstname/:old/newfirstname/:new',function(req, res){
+    console.log(req.params);
+    
 })
 
 app.listen(8080, function(){
