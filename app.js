@@ -200,7 +200,7 @@ app.get('/listdevelopers', function(req, res){
 
 // a request update a developer's first name
 app.get('/oldfirstname/newfirstname', function(req, res){
-    res.sendFile(__dirname + "/views/updatetask.html");
+    res.sendFile(__dirname + "/views/updaname.html");
 });
 // aresponse to update a developer's first name
 app.post('/updateDeveloper', function(req, res){
