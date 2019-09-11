@@ -212,7 +212,8 @@ app.post('/updateDeveloper', function(req, res){
     Developer.updateMany({ 'name.firstName': oldFirstName},{ $set: { 'name.firstName': newFirstName}},function(err, doc){
         if (err){
             console.log(err);
-            
+        } else {
+            res.redirect('/listdevelopers');
         }
     })
 
