@@ -202,11 +202,11 @@ app.get('/listdevelopers', function(req, res){
 app.get('/oldfirstname/newfirstname', function(req, res){
     res.sendFile(__dirname + "/views/updatename.html");
 });
-// app.post('/updateDeveloper', function(req, res){
-//     let newDeveloper = req.body;
-//     console.log(newDeveloper);
-//     //Developer.find({name.firstName: })
-// })
+app.post('/updateDeveloper', function(req, res){
+    let newDeveloper = req.body;
+    console.log(newDeveloper);
+    //Developer.find({name.firstName: })
+})
 
 app.listen(8080, function(){
     console.log("Listening on port 8080!")
