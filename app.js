@@ -46,7 +46,7 @@ console.log("Connecting to MongoDB Server=" + url);
 // })
 
 // connect to mongoose
-mongoose.connect(url, function(err){
+mongoose.connect(url, { useNewUrlParser: true }, function(err){
     if (err) {
         console.log("Err ", err);
     } else {
